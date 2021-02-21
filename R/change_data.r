@@ -212,7 +212,7 @@ change_data <- function(dat_list, outfile, fleets, years, types,
   }
 
   if (write_file) {
-    SS_writedat(datlist = dat_list, outfile = outfile, overwrite = TRUE,
+    SS_writedat(datlist = dat_list, outfile = outfile, overwrite = TRUE,version = "3.24",
       verbose = FALSE)
   }
   invisible(dat_list)

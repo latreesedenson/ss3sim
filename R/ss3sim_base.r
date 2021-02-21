@@ -291,7 +291,7 @@ ss3sim_base <- function(iterations, scenarios, f_params,
                                         calcomp_params  = calcomp_params,
                                         mlacomp_params  = mlacomp_params,
                                         wtatage_params  = wtatage_params)
-      datfile.orig <- SS_readdat(pastef(sc, i, "om", "ss3.dat"),
+      datfile.orig <- SS_readdat(pastef(sc, i, "om", "ss3.dat"),version="3.24",
                                  verbose = FALSE)
       datfile.orig <- change_fltname(datfile.orig)
 
@@ -330,7 +330,7 @@ ss3sim_base <- function(iterations, scenarios, f_params,
                             data_out = pastef(sc, i, "em", "ss3.dat"))
       ## Read in the datfile once and manipulate as a list object, then
       ## write it back to file at the end, before running the EM.
-      dat_list <- SS_readdat(pastef(sc, i, "em", "ss3.dat"),
+      dat_list <- SS_readdat(pastef(sc, i, "em", "ss3.dat"),version="3.24",
                             verbose = FALSE)
       dat_list <- change_fltname(dat_list)
       ## Survey biomass index
@@ -503,7 +503,7 @@ ss3sim_base <- function(iterations, scenarios, f_params,
         setwd(wd)
       }
 
-      SS_writedat(datlist = dat_list, outfile = pastef(sc, i, "em", "ss3.dat"),
+      SS_writedat(datlist = dat_list, outfile = pastef(sc, i, "em", "ss3.dat"),version = "3.24",
         overwrite = TRUE, verbose = FALSE)
 
       # Should we calculate the hessian?

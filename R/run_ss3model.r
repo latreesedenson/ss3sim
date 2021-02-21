@@ -84,10 +84,13 @@ run_ss3model <- function(scenarios, iterations, type = c("om", "em"),
       } else {
         wd <- getwd()
         setwd(pastef(sc, it, type))
-        system(paste0(paste0(bin, " "), ss_em_options, admb_options),
-          invisible = TRUE, ignore.stdout = ignore.stdout,
-               show.output.on.console = show.output.on.console, ...)
-        rename_ss3_files(path = "", ss_bin = ss_bin,
+        here = paste0("D:\\Chapter_1\\Restart\\FilestoRestartFrom\\Output\\2021-02-18\\",pastef(sc, it, type)) #LD
+         #system(paste0(paste0(bin, " "), ss_em_options, admb_options),
+          # invisible = TRUE, ignore.stdout = ignore.stdout,
+           #     show.output.on.console = show.output.on.console, ...) # LD- this was leaving files open so I changed it
+        shell(paste0(paste0(bin, " "), ss_em_options, admb_options), wait=TRUE, translate=TRUE,
+              invisible = TRUE,ignore.stdout =ignore.stdout) # LD
+        rename_ss3_files(path = here, ss_bin = ss_bin, # LD - this was looking in the wrong place 
           extensions = c("par", "rep", "log", "bar"))
         setwd(wd)
       }
