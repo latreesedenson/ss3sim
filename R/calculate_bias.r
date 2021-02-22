@@ -75,7 +75,7 @@ calculate_bias <- function(dir, ctl_file_in) {
   ignore <- file.remove(dir(path = dir, full.names = TRUE,
                             pattern = "^admodel|[bpr][0-9]{2}$|gradient|cor$|new$|par$|sso$|std$"))
   
-  bias.message = "Performed bias adjustment on this rep"
+ cat("\nPerformed bias adjustment on this rep\n")
   
-  return(bias.message)
+  #return(bias.message)
 }
