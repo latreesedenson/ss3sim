@@ -172,7 +172,7 @@
 #' setwd(wd)
 #' }
 
-ss3sim_base <- function(iterations, scenarios, f_params,
+ss3sim_base <- function(iterations, scenarios, scenario.directory,f_params,
   index_params, lcomp_params, agecomp_params, calcomp_params = NULL,
   wtatage_params = NULL, mlacomp_params = NULL, em_binning_params = NULL,
   estim_params = NULL, tv_params = NULL, om_dir, em_dir,
@@ -257,7 +257,7 @@ ss3sim_base <- function(iterations, scenarios, f_params,
                  par_file_out            = pastef(sc, i, "om", "ss3.par")))
 
       # Run the operating model
-      run_ss3model(scenarios = sc, iterations = i, type = "om", ...)
+      run_ss3model(scenarios = sc,scenario.directory =scenario.directory,  iterations = i, type = "om", ...)
       # Read in the data.ss_new file and write to ss3.dat in the om folder
       if(!file.exists(pastef(sc, i, "om", "data.ss_new")))
           stop(paste0("The data.ss_new not created in *first* OM run for ",
@@ -322,7 +322,7 @@ ss3sim_base <- function(iterations, scenarios, f_params,
       }
 
       # Run the operating model and copy the dat file over
-      run_ss3model(scenarios = sc, iterations = i, type = "om", ...)
+      run_ss3model(scenarios = sc,scenario.directory =scenario.directory, iterations = i, type = "om", ...)
       if(!file.exists(pastef(sc, i, "om", "data.ss_new")))
           stop(paste0("The data.ss_new not created in *second* OM run for ",
                      sc, "-",i, ": is something wrong with initial model files?"))
@@ -516,7 +516,7 @@ ss3sim_base <- function(iterations, scenarios, f_params,
             hess <- FALSE
         }}
 
-      run_ss3model(scenarios = sc, iterations = i, type = "em",
+      run_ss3model(scenarios = sc,scenario.directory =scenario.directory ,iterations = i, type = "em",
         hess = hess, ...)
 
       # Should we run bias adjustment? We should if bias_adjust is

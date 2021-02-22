@@ -49,7 +49,7 @@
 #' @author Sean C. Anderson
 #' @export
 
-run_ss3model <- function(scenarios, iterations, type = c("om", "em"),
+run_ss3model <- function(scenarios,scenario.directory ,iterations, type = c("om", "em"),
   admb_options = "", hess = FALSE, ignore.stdout =
   TRUE, admb_pause = 0.05, ss_mode = c("safe", "optimized"),
   show.output.on.console = FALSE, ...) {
@@ -84,7 +84,7 @@ run_ss3model <- function(scenarios, iterations, type = c("om", "em"),
       } else {
         wd <- getwd()
         setwd(pastef(sc, it, type))
-        here = paste0("D:\\Chapter_1\\Restart\\FilestoRestartFrom\\Output\\2021-02-18\\",pastef(sc, it, type)) #LD
+        here = paste0(scenario.directory,"/",pastef(sc, it, type)) #LD
          #system(paste0(paste0(bin, " "), ss_em_options, admb_options),
           # invisible = TRUE, ignore.stdout = ignore.stdout,
            #     show.output.on.console = show.output.on.console, ...) # LD- this was leaving files open so I changed it
