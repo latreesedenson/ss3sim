@@ -25,7 +25,7 @@
 #' @author Kelli Faye Johnson
 #' @return
 #' A list of bias adjustment parameters.
-#'
+#' @export
 calculate_bias <- function(dir, ctl_file_in) {
   dir_all <- list.dirs(dir, recursive = FALSE)
   dir_num <- length(grep("bias_[0-9]+$", dir_all))

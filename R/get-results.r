@@ -430,29 +430,29 @@ get_results_scenario <- function(scenario, directory=getwd(),
 #' @export
 #' @family get-results
 #' @author Cole Monnahan
-get_results_timeseries <- function(report.file){
-    years <- report.file$startyr:(report.file$endyr +
+get_results_timeseries <- function(report.file=report.em){
+  years <- report.file$startyr:(report.file$endyr +
                                   ifelse(is.na(report.file$nforecastyears) ==
-                                      TRUE, 0,
+                                           TRUE, 0,
                                          report.file$nforecastyears))
-    xx <- subset(report.file$timeseries,
-                 select=c("Yr","SpawnBio", "Recruit_0", "F:_1"))
-    xx <- xx[xx$Yr %in% years,]
-    names(xx) <- gsub(":_1","", names(xx))
-    # Get SPR from derived_quants
-    spr <- with(report.file$derived_quants,
-      report.file$derived_quants[grep("SPRratio_", LABEL), ])
-    spr$Yr <- sapply(strsplit(spr$LABEL, "_"), "[", 2)
-    colnames(spr)[which(colnames(spr) == "Value")] <- "SPRratio"
-    # Get recruitment deviations
-    dev <- report.file$recruit
-    dev <- dev[dev$year %in% years, c("year", "dev")]
-    ## create final data.frame
-    df <- merge(xx, spr[, c("SPRratio", "Yr")], by = "Yr", all.x = TRUE)
-    df$SPRratio[is.na(df$SPRratio)] <- 0
-    df <- merge(df, dev, by.x = "Yr", by.y = "year", all.x = TRUE)
-    rownames(df) <- NULL
-    return(invisible(df))
+  xx <- subset(report.file$timeseries,
+               select=c("Yr","SpawnBio", "Recruit_0", "F:_1"))
+  xx <- xx[xx$Yr %in% years,]
+  names(xx) <- gsub(":_1","", names(xx))
+  # Get SPR from derived_quants
+  spr <- with(report.file$derived_quants,
+              report.file$derived_quants[grep("SPRratio_", Label), ])
+  spr$Yr <- sapply(strsplit(spr$Label, "_"), "[", 2)
+  colnames(spr)[which(colnames(spr) == "Value")] <- "SPRratio"
+  # Get recruitment deviations
+  dev <- report.file$recruit
+  dev <- dev[dev$Yr %in% years, c("Yr", "dev")]
+  ## create final data.frame
+  df <- merge(xx, spr[, c("SPRratio", "Yr")], by = "Yr", all.x = TRUE)
+  df$SPRratio[is.na(df$SPRratio)] <- 0
+  df <- merge(df, dev, by = "Yr", all.x = TRUE)
+  rownames(df) <- NULL
+  return(invisible(df))
 }
 
 #' Extract time series from a model run with the associated standard deviation.
@@ -467,12 +467,12 @@ get_results_timeseries <- function(report.file){
 #' @author Kelli Johnson
 get_results_derived <- function(report.file){
     xx <- report.file$derived_quants
-    xx <- xx[, c("LABEL", "Value", "StdDev")]
-    xx$Yr <- sapply(strsplit(xx$LABEL, "_"), "[", 2)
-    xx$name <- sapply(strsplit(xx$LABEL, "_"), "[", 1)
+    xx <- xx[, c("Label", "Value", "StdDev")]
+    xx$Yr <- sapply(strsplit(xx$Label, "_"), "[", 2)
+    xx$name <- sapply(strsplit(xx$Label, "_"), "[", 1)
     if (all(xx$StdDev == 0)) xx <- xx[, -which(colnames(xx) == "StdDev")]
     final <- reshape(xx, timevar = "name", idvar = "Yr", direction = "wide",
-      drop = "LABEL")
+      drop = "Label")
     final <- final[-which(final$Yr == "Virgin"), ]
     rownames(final) <- NULL
     invisible(final)
@@ -488,11 +488,11 @@ get_results_derived <- function(report.file){
 #' @author Cole Monnahan; Merrill Rudd
 get_results_scalar <- function(report.file){
     der <- report.file$derived_quants
-    SSB_MSY <-  der[which(der$LABEL=="SSB_MSY"),]$Value
-    TotYield_MSY <-  der[which(der$LABEL=="TotYield_MSY"),]$Value
-    SSB_Unfished <-  der[which(der$LABEL=="SSB_Unfished"),]$Value
-    F_MSY <- der[der$LABEL == "Fstd_MSY", "Value"]
-    F_SPR <- der[der$LABEL == "Fstd_SPRtgt", "Value"]
+    SSB_MSY <-  der[which(der$Label=="SSB_MSY"),]$Value
+    TotYield_MSY <-  der[which(der$Label=="TotYield_MSY"),]$Value
+    SSB_Unfished <-  der[which(der$Label=="SSB_Unfished"),]$Value
+    F_MSY <- der[der$Label == "Fstd_MSY", "Value"]
+    F_SPR <- der[der$Label == "Fstd_SPRtgt", "Value"]
     Catch_endyear <-
         rev(report.file$timeseries[,grep("dead\\(B\\)",
           names(report.file$timeseries))])[1]
